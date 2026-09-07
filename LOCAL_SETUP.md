@@ -98,7 +98,7 @@ TOKEN_EXPIRY_HOURS=72
 Start the backend:
 
 ```bash
-python3 -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+python -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 ```
 
 Verify it works: http://localhost:8000/api/v1/health → should return `{"status":"ok"}`
