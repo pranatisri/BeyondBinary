@@ -23,9 +23,15 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Allow configured frontend origin (with or without https/trailing slash) plus any Railway preview/production domains
+frontend_origin = settings.FRONTEND_URL.rstrip("/")
+if frontend_origin and not frontend_origin.startswith("http"):
+    frontend_origin = f"https://{frontend_origin}"
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.FRONTEND_URL, "http://localhost:3000"],
+    allow_origins=[frontend_origin, settings.FRONTEND_URL, "http://localhost:3000"],
+    allow_origin_regex=r"https://.*\.up\.railway\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
